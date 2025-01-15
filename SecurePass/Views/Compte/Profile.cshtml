@@ -1,0 +1,188 @@
+@model WatchlistV2.Models.Utilisateur
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "_Layout";
+}
+
+<style>
+:root {
+    /* Couleurs pour le thème light */
+    --background-color: #ffffff;
+    --text-color: #1f2937;
+    --card-background: #ffffff;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-color: #e2e8f0;
+    --header-color: #1f2937;
+    --detail-label-color: #4b5563;
+    --detail-value-color: #1f2937;
+    --icon-color: #2563eb;
+}
+
+[data-theme="dark"] {
+    /* Couleurs pour le thème dark */
+    --background-color: #1a202c;
+    --text-color: #f7fafc;
+    --card-background: #2d3748;
+    --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+    --border-color: #4a5568;
+    --header-color: #f7fafc;
+    --detail-label-color: #cbd5e0;
+    --detail-value-color: #f7fafc;
+    --icon-color: #60a5fa;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--header-color);
+}
+
+.profile-header h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.profile-header p {
+    font-size: 1rem;
+    color: var(--detail-label-color);
+}
+
+.profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.profile-card {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-card-icon {
+    font-size: 2rem;
+    color: var(--icon-color);
+    margin-bottom: 10px;
+}
+
+.profile-card-label {
+    font-size: 1rem;
+    color: var(--detail-label-color);
+    margin-bottom: 5px;
+}
+
+.profile-card-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--detail-value-color);
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .profile-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .profile-details {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+
+@{
+    ViewData["Title"] = "Profil";
+    Layout = "_Layout";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>Profil de l'utilisateur</h2>
+        <p>Gérez vos informations personnelles et vos préférences.</p>
+    </div>
+
+    <div class="profile-details">
+        <!-- Carte pour l'ID -->
+        <div class="profile-card">
+            <div class="profile-card-icon">🆔</div>
+            <div class="profile-card-label">ID</div>
+            <div class="profile-card-value">@Model.Id</div>
+        </div>
+
+        <!-- Carte pour le nom d'utilisateur -->
+        <div class="profile-card">
+            <div class="profile-card-icon">👤</div>
+            <div class="profile-card-label">Nom d'utilisateur</div>
+            <div class="profile-card-value">@Model.UserName</div>
+        </div>
+
+        <!-- Carte pour l'email -->
+        <div class="profile-card">
+            <div class="profile-card-icon">📧</div>
+            <div class="profile-card-label">Email</div>
+            <div class="profile-card-value">@Model.Email</div>
+        </div>
+
+        <!-- Carte pour la date d'inscription -->
+        <div class="profile-card">
+            <div class="profile-card-icon">📅</div>
+            <div class="profile-card-label">Date d'inscription</div>
+            <div class="profile-card-value">@Model.DateJoined.ToString("dd/MM/yyyy")</div>
+        </div>
+
+        <!-- Carte pour le nombre de comptes -->
+        <div class="profile-card">
+            <div class="profile-card-icon">🔢</div>
+            <div class="profile-card-label">Nombre de comptes</div>
+            <div class="profile-card-value">@ViewBag.NumberOfAccounts</div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Vérifier le thème actuel dans le localStorage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
+
+        // Basculer entre les thèmes
+        themeToggle.addEventListener('click', function () {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    });
+</script>
+}

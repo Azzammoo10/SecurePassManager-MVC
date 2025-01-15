@@ -1,0 +1,168 @@
+﻿@using WatchlistV2.Models
+@model Compte
+
+@{
+    ViewData["Title"] = "Supprimer un compte";
+    Layout = "_Layout";
+}
+
+<style>
+:root {
+    /* Couleurs pour le thème light */
+    --background-color: #ffffff;
+    --text-color: #1f2937;
+    --card-background: #ffffff;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --border-color: #e2e8f0;
+    --header-color: #1f2937;
+    --danger-color: #dc3545;
+    --secondary-color: #6c757d;
+    --button-hover-color: #c82333;
+    --button-secondary-hover-color: #5a6268;
+}
+
+[data-theme="dark"] {
+    /* Couleurs pour le thème dark */
+    --background-color: #1a202c;
+    --text-color: #f7fafc;
+    --card-background: #2d3748;
+    --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+    --border-color: #4a5568;
+    --header-color: #f7fafc;
+    --danger-color: #dc3545;
+    --secondary-color: #6c757d;
+    --button-hover-color: #c82333;
+    --button-secondary-hover-color: #5a6268;
+}
+
+.delete-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: var(--card-background);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.delete-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--danger-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.delete-subtitle {
+    font-size: 18px;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.delete-details {
+    margin-bottom: 30px;
+}
+
+.delete-details dt {
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.delete-details dd {
+    margin-left: 0;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.delete-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.delete-buttons .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    flex: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-buttons .btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.delete-buttons .btn-danger:hover {
+    background-color: var(--button-hover-color);
+    transform: translateY(-2px);
+}
+
+.delete-buttons .btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.delete-buttons .btn-secondary:hover {
+    background-color: var(--button-secondary-hover-color);
+    transform: translateY(-2px);
+}
+
+/* Animation subtile au survol */
+.delete-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .delete-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .delete-buttons {
+        flex-direction: column;
+    }
+
+    .delete-buttons .btn {
+        width: 100%;
+    }
+}
+</style>
+
+
+
+
+<div class="delete-container">
+    <h2 class="delete-title">Supprimer un compte</h2>
+    <h3 class="delete-subtitle">Êtes-vous sûr de vouloir supprimer ce compte ?</h3>
+
+    <dl class="delete-details">
+        <dt>Service</dt>
+        <dd>@Model.Service</dd>
+
+        <dt>Password</dt>
+        <dd>@Model.Password</dd>
+
+        <dt>Nom d'utilisateur</dt>
+        <dd>@Model.Username</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="delete-buttons">
+            <button type="submit" class="btn btn-danger" aria-label="Supprimer le compte">
+                Supprimer
+            </button>
+            <a asp-action="Index" class="btn btn-secondary" aria-label="Annuler et retourner à la liste">
+                Annuler
+            </a>
+        </div>
+    </form>
+</div>

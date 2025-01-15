@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Erreur";
+    Layout = "_Layout";
+}
+
+<h2>Erreur</h2>
+
+<p>
+    Aucun compte 
+</p>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        <strong>Message d'erreur :</strong> @ViewBag.ErrorMessage
+    </div>
+}
+
+<a asp-action="Create" class="btn btn-success">Ajouter un compte</a>

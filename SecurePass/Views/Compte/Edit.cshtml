@@ -1,0 +1,264 @@
+﻿@model CompteUpdateDTO
+
+@{
+    ViewData["Title"] = "Modifier un compte";
+    Layout = "_Layout";
+}
+
+<style>
+    :root {
+        --background-color: #ffffff;
+        --text-color: #1f2937;
+        --card-background: #ffffff;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --border-color: #e2e8f0;
+        --primary-color: #2563eb;
+        --success-color: #28a745;
+        --error-color: #dc3545;
+        --input-background: #f8fafc;
+        --input-placeholder: #94a3b8;
+        --button-primary-bg: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        --button-secondary-bg: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        --button-text: #ffffff;
+    }
+
+    [data-theme="dark"] {
+        --background-color: #1a202c;
+        --text-color: #f7fafc;
+        --card-background: #2d3748;
+        --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+        --border-color: #4a5568;
+        --primary-color: #60a5fa;
+        --success-color: #34d399;
+        --error-color: #f87171;
+        --input-background: #4a5568;
+        --input-placeholder: #a0aec0;
+        --button-primary-bg: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        --button-secondary-bg: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        --button-text: #ffffff;
+    }
+
+    .dashboard-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 2.5rem;
+        background-color: var(--card-background);
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+    }
+
+    .page-title {
+        text-align: center;
+        color: var(--text-color);
+        font-size: 1.875rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        background-color: var(--input-background);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--text-color);
+        cursor: pointer;
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        color: var(--button-text);
+    }
+
+    .btn-success {
+        background: var(--button-primary-bg);
+    }
+
+    .btn-secondary {
+        background: var(--button-secondary-bg);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .toast-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1000;
+    }
+
+    .toast {
+        background-color: var(--card-background);
+        border-left: 4px solid var(--success-color);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: var(--card-shadow);
+        display: none;
+        margin-bottom: 1rem;
+    }
+
+    .toast.error {
+        border-left-color: var(--error-color);
+    }
+
+    .toast.show {
+        display: block;
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Toast Notification -->
+    <div class="toast-container">
+        <div id="successToast" class="toast">
+            <div class="toast-body">
+                Les modifications ont été enregistrées avec succès.
+            </div>
+        </div>
+        <div id="errorToast" class="toast error">
+            <div class="toast-body">
+                Une erreur s'est produite. Veuillez réessayer.
+            </div>
+        </div>
+    </div>
+
+    <h2 class="page-title">Modifier un compte</h2>
+    <form asp-action="Edit" method="post" id="editForm">
+        <div class="form-group">
+            <label asp-for="Service" class="form-label">Service</label>
+            <input asp-for="Service" class="form-control" placeholder="Nom du service" required />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Username" class="form-label">Nom d'utilisateur</label>
+            <input asp-for="Username" type="email" class="form-control" placeholder="Votre nom d'utilisateur" required />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="form-label">Mot de passe</label>
+            <div class="password-wrapper">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Votre mot de passe" required />
+                <button type="button" class="toggle-password" aria-label="Afficher/Masquer le mot de passe">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('editForm');
+    const successToast = document.getElementById('successToast');
+    const errorToast = document.getElementById('errorToast');
+
+            // Toggle password visibility
+        const togglePassword = document.querySelector('.toggle-password');
+        const passwordInput = document.querySelector('input[type="password"]');
+        
+        if (togglePassword && passwordInput) {
+            togglePassword.addEventListener('click', function() {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                // Change icon if needed
+            });
+        }
+
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur réseau');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    successToast.querySelector('.toast-body').textContent = data.message;
+                    successToast.classList.add('show');
+                    setTimeout(() => {
+                        successToast.classList.remove('show');
+                        window.location.href = '/Compte/Index'; // Redirection après succès
+                    }, 2000);
+                } else {
+                    errorToast.querySelector('.toast-body').textContent = data.message || 'Une erreur s\'est produite. Veuillez réessayer.';
+                    errorToast.classList.add('show');
+                    setTimeout(() => {
+                        errorToast.classList.remove('show');
+                    }, 3000);
+                }
+            })
+            .catch(error => {
+                errorToast.querySelector('.toast-body').textContent = 'Une erreur s\'est produite. Veuillez réessayer.';
+                errorToast.classList.add('show');
+                setTimeout(() => {
+                    errorToast.classList.remove('show');
+                }, 3000);
+            });
+        });
+    }
+});
+</script>

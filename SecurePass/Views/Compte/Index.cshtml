@@ -1,0 +1,317 @@
+﻿@using WatchlistV2.Models
+@model List<Compte>
+
+@{
+    ViewData["Title"] = "Mes Services";
+    Layout = "_Layout";
+}
+
+<style>
+:root {
+    /* Couleurs pour le thème light */
+    --background-color: #ffffff;
+    --text-color: #2d3748;
+    --border-color: #e2e8f0;
+    --card-background: #ffffff;
+    --card-hover-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --input-background: #f8fafc;
+    --input-placeholder: #94a3b8;
+    --button-primary-bg: linear-gradient(to right, #2563eb, #5e72ce);
+    --button-primary-text: #ffffff;
+    --button-secondary-bg: #f8fafc;
+    --button-secondary-text: #64748b;
+    --button-secondary-border: #e2e8f0;
+    --button-danger-bg: #ff000081;
+    --button-danger-text: #ffffff;
+    --empty-state-bg: #f8fafc;
+    --empty-state-text: #718096;
+}
+
+[data-theme="dark"] {
+    /* Couleurs pour le thème dark */
+    --background-color: #1a202c;
+    --text-color: #f7fafc;
+    --border-color: #4a5568;
+    --card-background: #2d3748;
+    --card-hover-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+    --input-background: #4a5568;
+    --input-placeholder: #a0aec0;
+    --button-primary-bg: linear-gradient(to right, #2563eb, #5e72ce);
+    --button-primary-text: #ffffff;
+    --button-secondary-bg: #4a5568;
+    --button-secondary-text: #f7fafc;
+    --button-secondary-border: #4a5568;
+    --button-danger-bg: #ff000081;
+    --button-danger-text: #ffffff;
+    --empty-state-bg: #4a5568;
+    --empty-state-text: #a0aec0;
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: 12px;
+    color: var(--text-color);
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: var(--input-background);
+    border: 2px solid var(--border-color);
+    border-radius: 30px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.search-form:focus-within {
+    border-color: #2563eb;
+}
+
+.search-icon {
+    margin-right: 10px;
+    color: var(--text-color);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: var(--text-color);
+    background: transparent;
+    padding: 8px;
+}
+
+.search-input::placeholder {
+    color: var(--input-placeholder);
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-search {
+    background-image: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border: none;
+    margin-left: 10px;
+}
+
+.btn-search:hover {
+    opacity: 0.9;
+}
+
+.btn-clear {
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
+    border: 2px solid var(--button-secondary-border);
+    margin-left: 10px;
+}
+
+.btn-clear:hover {
+    background-color: var(--button-secondary-border);
+    color: var(--button-primary-text);
+}
+
+.btn-clear svg {
+    width: 16px;
+    height: 16px;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.service-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.service-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-add {
+    background-color: #60a5fa;
+    color: white;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.btn-add:hover {
+    background-color: #3b82f6;
+}
+
+.btn-edit {
+    background-color: #60a5fa;
+    color: white;
+}
+
+.btn-details {
+    background-color: #93c5fd;
+    color: white;
+}
+
+.btn-delete {
+    background-color: var(--button-danger-bg);
+    color: var(--button-danger-text);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(110%);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--empty-state-text);
+    background-color: var(--empty-state-bg);
+    border-radius: 8px;
+}
+
+.logo-container {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.service-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+@@media (max-width: 768px) {
+    .dashboard-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+</style>
+
+<div class="dashboard-container">
+    <!-- Formulaire de recherche -->
+    <div class="search-container">
+        <form asp-action="Search" method="get" class="search-form">
+            <!-- Icône de recherche -->
+            <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            
+            <!-- Champ de recherche -->
+            <input type="text" class="search-input" placeholder="Rechercher un service..." name="Service" value="@Context.Request.Query["Service"]" />
+            
+            <!-- Bouton de recherche -->
+            <button type="submit" class="btn btn-search">
+                Rechercher
+            </button>
+            
+            <!-- Bouton pour effacer la recherche -->
+            <a href="/Compte/Index" class="btn btn-clear">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </a>
+        </form>
+    </div>
+
+    <!-- Bouton "Ajouter un service" -->
+    <a asp-action="Create" class="btn btn-add">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Ajouter un service
+    </a>
+
+    <!-- Affichage des résultats -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="service-grid">
+            @foreach (var compte in Model)
+            {
+                <div class="service-card">
+                    <div class="service-header">
+                        <!-- Affichage du logo et du nom du service sur la même ligne -->
+                        @if (!string.IsNullOrEmpty(compte.LogoUrl))
+                        {
+                            <div class="logo-container">
+                                <img src="@compte.LogoUrl" alt="Logo de @compte.Service" class="service-logo" />
+                            </div>
+                        }
+                        <span class="service-name">@compte.Service</span>
+                    </div>
+
+                    <div class="card-actions">
+                        <a asp-action="Edit" asp-route-id="@compte.Id" class="btn btn-edit">Modifier</a>
+                        <a asp-action="Details" asp-route-id="@compte.Id" class="btn btn-details">Détails</a>
+                        <a asp-action="Delete" asp-route-id="@compte.Id" class="btn btn-delete">Supprimer</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            Aucun service trouvé.
+        </div>
+    }
+</div>

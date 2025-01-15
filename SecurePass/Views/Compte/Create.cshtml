@@ -1,0 +1,287 @@
+﻿@model CompteDTO
+
+@{
+    ViewData["Title"] = "Ajouter un compte";
+    Layout = "_Layout";
+}
+
+<style>
+    :root {
+        --background-color: #ffffff;
+        --text-color: #1f2937;
+        --card-background: #ffffff;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --border-color: #e2e8f0;
+        --primary-color: #2563eb;
+        --success-color: #28a745;
+        --error-color: #dc3545;
+        --input-background: #f8fafc;
+        --input-placeholder: #94a3b8;
+        --button-primary-bg: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        --button-secondary-bg: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        --button-text: #ffffff;
+    }
+
+    [data-theme="dark"] {
+        --background-color: #1a202c;
+        --text-color: #f7fafc;
+        --card-background: #2d3748;
+        --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+        --border-color: #4a5568;
+        --primary-color: #60a5fa;
+        --success-color: #34d399;
+        --error-color: #f87171;
+        --input-background: #4a5568;
+        --input-placeholder: #a0aec0;
+        --button-primary-bg: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        --button-secondary-bg: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        --button-text: #ffffff;
+    }
+    /* Animations */
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    .dashboard-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 2.5rem;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    .page-title {
+        text-align: center;
+        color: #374151;
+        font-size: 1.875rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        color: #4b5563;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        outline: none;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        padding: 0.25rem;
+        transition: color 0.2s ease;
+    }
+
+    .toggle-password:hover {
+        color: #6b7280;
+    }
+
+     .btn-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+
+    .btn-success{
+        background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        border: none;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.25);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        border: none;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(113, 128, 150, 0.25);
+    }
+    
+    
+    .text-danger {
+        color: #dc2626;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+        animation: shake 0.5s ease-in-out;
+    }
+
+        .invalid-feedback {
+        display: none;
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .was-validated .form-control:invalid {
+        border-color: #dc3545;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .was-validated .form-control:valid {
+        border-color: #198754;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+</style>
+
+<div class="dashboard-container">
+    <h2 class="page-title">Ajouter un compte</h2>
+    <form asp-action="Create" method="post" id="createForm" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label asp-for="Service" class="form-label">Service</label>
+            <input asp-for="Service" class="form-control" placeholder="Nom du service" required maxlength="50" />
+            <div class="invalid-feedback">
+                Veuillez entrer un nom de service valide.
+            </div>
+            <span asp-validation-for="Service" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Username" class="form-label">Email</label>
+            <input asp-for="Username" type="email" class="form-control" placeholder="Votre nom d'utilisateur" required />
+            <div class="invalid-feedback">
+                Veuillez entrer une adresse email valide.
+            </div>
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="form-label">Mot de passe</label>
+            <div class="password-wrapper">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Votre mot de passe" 
+                       required minlength="8" maxlength="16" 
+                       pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,16}$" />
+                <div class="invalid-feedback">
+                    Le mot de passe doit contenir entre 8 et 16 caractères, incluant au moins une majuscule, une minuscule et un chiffre.
+                </div>
+               <button type="button" class="toggle-password" aria-label="Afficher/Masquer le mot de passe">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </button>
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-success">Ajouter</button>
+            <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Validation du formulaire
+            const form = document.getElementById('createForm');
+            
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    // Trouver tous les champs invalides et afficher leurs messages
+                    const invalidInputs = form.querySelectorAll(':invalid');
+                    invalidInputs.forEach(input => {
+                        const feedback = input.nextElementSibling;
+                        if (feedback && feedback.classList.contains('invalid-feedback')) {
+                            feedback.style.display = 'block';
+                        }
+                    });
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+
+            // Réinitialiser la validation lors de la modification des champs
+            form.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', function () {
+                    if (this.checkValidity()) {
+                        const feedback = this.nextElementSibling;
+                        if (feedback && feedback.classList.contains('invalid-feedback')) {
+                            feedback.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            // Votre code existant pour le toggle password
+            const togglePassword = document.querySelector('.toggle-password');
+            const passwordInput = document.querySelector('input[type="password"]');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    // Votre code existant pour changer l'icône
+                });
+            }
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

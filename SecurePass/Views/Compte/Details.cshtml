@@ -1,0 +1,217 @@
+﻿@using WatchlistV2.Models
+@model Compte
+
+@{
+    ViewData["Title"] = "Détails du compte";
+    Layout = "_Layout";
+}
+
+<style>
+    /* Animations */
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    .details-container {
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    h2 {
+        text-align: center;
+        color: #2d3748;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        font-weight: 600;
+        position: relative;
+    }
+
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(to right, #4299e1, #667eea);
+        border-radius: 2px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+        background-color: #f8fafc;
+        color: #4a5568;
+        font-weight: 600;
+    }
+
+    td {
+        color: #718096;
+    }
+
+    .password-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .password-field {
+        flex-grow: 1;
+        max-width: 300px;
+        padding: 10px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background-color: #f8fafc;
+    }
+
+    .password-field:focus {
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+        outline: none;
+    }
+
+    .toggle-password {
+        margin-left: 10px;
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        background-color: #4299e1;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .toggle-password:hover {
+        background-color: #3182ce;
+        transform: translateY(-2px);
+    }
+
+    .btn-container {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4299e1 0%, #667eea 100%);
+        border: none;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 153, 225, 0.25);
+    }
+
+    .btn-secondary {
+        background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+        border: none;
+        color: #fff;
+    }
+
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(113, 128, 150, 0.25);
+    }
+
+    /* Responsive design */
+    @@media (max-width: 768px) {
+        .details-container {
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+        }
+
+        .btn {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+
+<div class="details-container">
+    <h2>Détails du compte</h2>
+    <table>
+        <tr>
+            <th>Service</th>
+            <td>@Model.Service</td>
+        </tr>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <td>@Model.Username</td>
+        </tr>
+        <tr>
+            <th>Mot de passe</th>
+            <td>
+                <div class="password-container">
+                    <input type="password" value="@Model.Password" class="password-field" id="passwordField" readonly />
+                    <button type="button" class="toggle-password" id="togglePassword" aria-label="Afficher le mot de passe">
+                        <i class="fas fa-eye"></i> Afficher
+                    </button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>Date d'ajout</th>
+            <td>@Model.DateAdded.ToLocalTime()</td>
+        </tr>
+    </table>
+    <div class="btn-container">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifier</a>
+        <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordField = document.getElementById('passwordField');
+        const toggleButton = document.getElementById('togglePassword');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i> Masquer';
+        } else {
+            passwordField.type = 'password';
+            toggleButton.innerHTML = '<i class="fas fa-eye"></i> Afficher';
+        }
+    });
+</script>

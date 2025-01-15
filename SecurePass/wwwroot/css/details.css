@@ -1,0 +1,29 @@
+/* Style pour la carte */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les titres */
+h2 {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Style pour les boutons */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+/* Style pour le champ de mot de passe */
+.password-field {
+    width: 100%;
+    max-width: 300px;
+}

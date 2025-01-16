@@ -118,3 +118,6 @@ Après avoir créé et ajouté ce fichier `README.md`, procédez ainsi pour le p
 
 Et voilà ! Votre projet sur GitHub sera bien présenté avec ce fichier.
 ![image](https://github.com/user-attachments/assets/d347ce6a-5c9e-45fe-a339-c4da51d81b50)
+![image](https://github.com/user-attachments/assets/bdc96703-ea9e-46f5-be68-5b8c4253722b)
+![image](https://github.com/user-attachments/assets/4c8f374f-0872-4842-b6e3-84ced3393733)
+

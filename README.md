@@ -117,3 +117,4 @@ Après avoir créé et ajouté ce fichier `README.md`, procédez ainsi pour le p
    ```
 
 Et voilà ! Votre projet sur GitHub sera bien présenté avec ce fichier.
+![image](https://github.com/user-attachments/assets/d347ce6a-5c9e-45fe-a339-c4da51d81b50)

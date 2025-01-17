@@ -55,8 +55,8 @@ using FluentValidation.AspNetCore;
     builder.Services.AddScoped<ILogoutBackgroundService, LogoutBackgroundService>();
     builder.Services.AddHttpContextAccessor(); // Nécessaire pour accéder au HttpContext dans le service
     builder.Services.AddSingleton<IEncryptionService>(new AesEncryptionService(
-        key: "x0KDrR9gixh6Ok3WTwaIF7eLsDAIWtTHlsx2/nFLjYc=", // Nouvelle clé Base64
-        iv: "zfVIZYTfhu562IKYAAQOyA==" // Nouvel IV Base64
+        key: "Add_Your_Key_Here", // Nouvelle clé Base64 
+        iv: "Add_Your_IV_Here" // Nouvel IV Base64
     ));
 
 
